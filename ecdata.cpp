@@ -70,8 +70,8 @@ void ECData::readFile(QString fileName, int dataSource) {
         while (!in.atEnd()) {
             QString line = in.readLine();
             QStringList fields = line.split(QRegExp("\\s+"), Qt::SkipEmptyParts);
-            potential.append(fields[0].toDouble());
-            current.append(fields[1].toDouble());
+            potential.append(round(fields[0].toDouble()*10000.0)/10000.0);
+            current.append(fields[1].toDouble()/1000.0);
             time.append(fields[2].toDouble());
             nols++;
         }
