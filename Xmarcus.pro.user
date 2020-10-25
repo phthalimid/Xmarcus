@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.13.2, 2020-10-25T16:01:11. -->
+<!-- Written by QtCreator 4.13.2, 2020-10-25T16:22:06. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -322,7 +322,10 @@
     </valuelist>
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
-    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes">
+     <value type="QString">DYLD_FRAMEWORK_PATH=/usr/lib:/opt/local/lib:/usr/local/lib:/Users/tn438/Qt/5.15.1/clang_64/lib</value>
+     <value type="QString">DYLD_LIBRARY_PATH=/usr/lib:/opt/local/lib:/usr/local/lib:/Users/tn438/Qt/5.15.1/clang_64/lib</value>
+    </valuelist>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Xmarcus2</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/Users/tn438/Google Drive/Projects/Xmarcus/Xmarcus.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/Users/tn438/Google Drive/Projects/Xmarcus/Xmarcus.pro</value>
