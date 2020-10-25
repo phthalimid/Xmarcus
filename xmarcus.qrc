@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>icons/open.ico</file>
+        <file>icons/save.ico</file>
+        <file>icons/save-as.ico</file>
+        <file>icons/save-all.ico</file>
+        <file>icons/Crystal_Project_Player_play.png</file>
+    </qresource>
+</RCC>

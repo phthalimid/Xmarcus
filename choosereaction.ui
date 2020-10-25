@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChooseReaction</class>
+ <widget class="QDialog" name="ChooseReaction">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>523</width>
+    <height>199</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>140</y>
+     <width>171</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_type">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>251</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>E (electrochemical redox reaction)</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>C (chemical reaction 1st order)</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>C2 (chemical reaction 2nd order)</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Cd (Disporportionation)</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Cc (Comproportionation)</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_arrow">
+   <property name="geometry">
+    <rect>
+     <x>243</x>
+     <y>74</y>
+     <width>36</width>
+     <height>43</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>36</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>⇄</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_p1">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>70</y>
+     <width>22</width>
+     <height>43</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>28</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_C">
+   <property name="geometry">
+    <rect>
+     <x>284</x>
+     <y>80</y>
+     <width>91</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_p2">
+   <property name="geometry">
+    <rect>
+     <x>383</x>
+     <y>70</y>
+     <width>22</width>
+     <height>43</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>28</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_D">
+   <property name="geometry">
+    <rect>
+     <x>409</x>
+     <y>80</y>
+     <width>91</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBox_A">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>80</y>
+     <width>91</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="comboBox_B">
+   <property name="geometry">
+    <rect>
+     <x>145</x>
+     <y>80</y>
+     <width>91</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_electron">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>72</y>
+     <width>31</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>36</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt;&quot;&gt;e&lt;/span&gt;&lt;span style=&quot; font-size:28pt; vertical-align:super;&quot;&gt;-&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>150</y>
+     <width>301</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>ATTENTION: no sanity check implemented!!!</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ChooseReaction</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ChooseReaction</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
