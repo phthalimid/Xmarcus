@@ -270,6 +270,7 @@ void Xmarcus::openFile() {
                 if(fields[1] == "ZAHNER") ui->comboBox_DataTypes->setCurrentIndex(ui->comboBox_DataTypes->findText("Zahner"));
                 else if(fields[1] == "CSV") ui->comboBox_DataTypes->setCurrentIndex(ui->comboBox_DataTypes->findText("Comma Separated Values (CSV)"));
                 else if(fields[1] == "ALB") ui->comboBox_DataTypes->setCurrentIndex(ui->comboBox_DataTypes->findText("Metrohm Autolab"));
+                else if(fields[1] == "ECL") ui->comboBox_DataTypes->setCurrentIndex(ui->comboBox_DataTypes->findText("EClab, BioLogic"));
                 if(fields.size() <= 2)
                     ui->label_FitFile->setText("no_file");
                 else
@@ -660,6 +661,7 @@ void Xmarcus::saveFile() {
         case 0: out << "fitdata\t" << "CSV\t" << ui->label_FitFile->text() << Qt::endl; break;
         case 1: out << "fitdata\t" << "ZAHNER\t" << ui->label_FitFile->text() << Qt::endl; break;
         case 2: out << "fitdata\t" << "ALB\t" << ui->label_FitFile->text() << Qt::endl; break;
+        case 3: out << "fitdata\t" << "ECL\t" << ui->label_FitFile->text() << Qt::endl; break;
         }
 
         out << "sweeps\t" << ui->spinBox->value() << Qt::endl;

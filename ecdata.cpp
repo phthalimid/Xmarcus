@@ -65,6 +65,18 @@ void ECData::readFile(QString fileName, int dataSource) {
         }
         nols--; // minus first line.
         break;
+    case 3: // EClab, BioLogic
+        in.readLine();             // Dump first line.
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            QStringList fields = line.split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+            potential.append(fields[0].toDouble());
+            current.append(fields[1].toDouble());
+            time.append(fields[2].toDouble());
+            nols++;
+        }
+        nols--; // minus first line.
+        break;
     default:
         break;
     }
