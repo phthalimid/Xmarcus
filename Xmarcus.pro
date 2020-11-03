@@ -67,8 +67,8 @@ INCLUDEPATH += /opt/local/include
 LIBS += -L/opt/local/lib -lgsl -lgslcblas -lm
 }
 win32 {
-INCLUDEPATH += c:/MinGW/msys/1.0/home/Nano/gsl-2.5
-LIBS += -Lc:/MinGW/msys/1.0/home/Nano/gsl-2.5/.libs -Lc:/MinGW/msys/1.0/home/Nano/gsl-2.5/cblas/.libs -lgsl -lgslcblas -lm
+INCLUDEPATH += c:/msys64/mingw64/include
+LIBS += -Lc:/msys64/mingw64/lib -lgsl -lgslcblas -lm
 }
 unix {
 INCLUDEPATH += /usr/local/include

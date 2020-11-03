@@ -12,13 +12,24 @@
 #include <iostream>
 #include <fstream>
 
+#include <numeric> //std::iota
+#include <memory>
+
+#include <gsl/gsl_errno.h>
 #include <gsl/gsl_spline.h>
+#include <gsl/gsl_vector.h>
+#include <gsl/gsl_fit.h>
+
+using namespace std;
 
 //#define ECDFLAG_AREA 0b00001    // Fit area
 //#define ECDFLAG_RES  0b00010    // Fit resistance
 //#define ECDFLAG_DLC  0b00100    // Fit capacitance
 
 #define RDIGS 10000.0 // Determines digits for rounding the potential
+
+#define BATCHSIZE 10
+
 
 class Xmarcus;
 
@@ -51,10 +62,12 @@ public:
     void readFile(QString, int);
     void clearData(void);
     void calcCVTimePot(void);
-    void splineData(QVector<double>, QVector<double>);
+//    void splineData(QVector<double>, QVector<double>);
+    void splineData(QVector<double>);
 
 private:
     void cleanData();
+    void _findSegments(int);
 
     Xmarcus *xmParent = nullptr;
 
