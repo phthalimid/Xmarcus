@@ -57,7 +57,7 @@ void WorkerSimCV::process() {
 
         if(xmParent->getFlags() & XMFLAG_FIT) {
 
-            fitData->splineData(simData->getPotential());
+            fitData->splineData(simData->getPotential(), simData->getPotIdx());
 //           fitData->splineData(simData->getTime(), simData->getPotential());
             procFitCV();
 

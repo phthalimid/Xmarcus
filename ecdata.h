@@ -49,6 +49,7 @@ public:
     double getScanRate() {return scanRate;} void setScanRate(double _scanRate) {scanRate = _scanRate;}
     double getTime(int i) {return time.at(i);} QVector<double> getTime() {return time;}
     double getPotential(int i) {return potential.at(i);} QVector<double> getPotential() {return potential;}
+    QVector<int> getPotIdx() {return rIndex;}
     double getCurrent(int i) {return current.at(i);} QVector<double> getCurrent() {return current;} void appendCurrent(double _value) {current.append(_value);} void clearCurrent() {current.clear();}
     double getSplineCurrent(int i) {return splineCurrent[i];}
     double getEffPotential(int i) {return effPotential.at(i);} void setEffPotential(int _i, double _Eff) {effPotential.replace(_i, _Eff);}
@@ -63,7 +64,7 @@ public:
     void clearData(void);
     void calcCVTimePot(void);
 //    void splineData(QVector<double>, QVector<double>);
-    void splineData(QVector<double>);
+    void splineData(QVector<double>, QVector<int>);
 
 private:
     void cleanData();
@@ -78,14 +79,15 @@ private:
     double scanRate;
     QVector<double> time;
     QVector<double> potential;
-    QVector<double> effPotential;
     QVector<double> current;
+    QVector<double> effPotential;
     QVector<double> splineCurrent;
 
     int noSweeps;
     QVector<int> ppSweep;
     QVector<double> rTimes;
     QVector<double> rPotentials;
+    QVector<int> rIndex;
 
     box dataRange;
 

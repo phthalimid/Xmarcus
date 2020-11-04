@@ -311,13 +311,16 @@ void ECData::_findSegments(int window) {
 
     // Fill in the return potentials and points per sweep
     rPotentials.clear();
+    rIndex.clear();
     rTimes.clear();
     ppSweep.clear();
 
     rPotentials.append(potential[0]);
+    rIndex.append(0);
     rTimes.append(time[0]);
     for (int i=1; i<idxTurns.size(); i++) {
         rPotentials.append(potential[idxTurns[i]]);
+        rIndex.append(idxTurns[i]);
         rTimes.append(time[idxTurns[i]]);
         ppSweep.append(idxTurns[i]-idxTurns[i-1]);
     }
@@ -361,6 +364,7 @@ void ECData::calcCVTimePot(void) {
     time.clear();
 
 //    potential not same number of points than below
+    rIndex.clear();
 
     potential.clear();
     effPotential.clear();
@@ -371,6 +375,7 @@ void ECData::calcCVTimePot(void) {
     // Starting time and potential
     time.append(0.0);
     potential.append(rPotentials[0]);
+    rIndex.append(0);
 
     double slope = sgn(rPotentials[1] - rPotentials[0]);
     for(int i=1; i<=noSweeps; i++) {
@@ -386,6 +391,7 @@ void ECData::calcCVTimePot(void) {
             }
         }
         rPotentials[i] = potential.last();
+        rIndex.append(potential.size()-1);
         rTimes[i] = time.last();
         slope *= -1.0;
     }
@@ -412,35 +418,18 @@ void ECData::calcCVTimePot(void) {
  * Interpolate data to match simulation.
  * IMPORTANT: the interpolated data must lie between the endpoints of the experimental data!
  */
-void ECData::splineData(QVector<double> simE) {
+void ECData::splineData(QVector<double> simE, QVector<int> simInx) {
 //void ECData::splineData(QVector<double> simt, QVector<double> simE) {
 
     splineCurrent.clear();
 
-    cout << simE.size() << endl << flush;
-
-/*
-    double *E = nullptr;
-    double *curr = nullptr;
-
-    QVectorIterator<double> itPot(potential);
-    QVectorIterator<double> itCurr(current);
-    QVectorIterator<double> itSimE(simE);
-    QVectorIterator<double> itSimt(simt);
-*/
     gsl_spline *spline = nullptr;
     gsl_interp_accel *acc = gsl_interp_accel_alloc();
 
-//    std::ofstream splFile;
-//    splFile.open("/Users/nannth/Desktop/splinefile.csv");
-
-    int data_pos = 0;
     for (int i=0; i<noSweeps; i++) {
 
-        vector<double> x(&potential.data()[data_pos], &potential.data()[data_pos]+ppSweep[i]+1);
-        vector<double> y(&current.data()[data_pos], &current.data()[data_pos]+ppSweep[i]+1);
-
-//        cout << "size x = " << x.size() << "\t ppSweep = " << ppSweep[i] << endl << flush;
+        vector<double> x(&potential.data()[rIndex[i]], &potential.data()[rIndex[i+1]]);
+        vector<double> y(&current.data()[rIndex[i]], &current.data()[rIndex[i+1]]);
 
         // Reverse if necessary
         if (x[1] - x[0] < 0.0) {
@@ -452,60 +441,19 @@ void ECData::splineData(QVector<double> simE) {
         gsl_spline_init(spline, x.data(), y.data(), x.size());
 
         // Add to spline current vector
-        if (i==0)   // First datapoint
-            splineCurrent.append(gsl_spline_eval(spline, simE[0], acc));
-        for (int j=1; j<int(x.size()); j++)
-            splineCurrent.append(gsl_spline_eval(spline, simE[data_pos+j], acc));
+        for (int j=0; j<(simInx[i+1]-simInx[i]); j++)
+            splineCurrent.append(gsl_spline_eval(spline, simE[simInx[i]+j], acc));
 
-        data_pos += ppSweep[i];
+        // Add last datapoint
+        if (i == noSweeps-1)
+            splineCurrent.append(gsl_spline_eval(spline, simE.last(), acc));
 
         gsl_spline_free(spline);
+        gsl_interp_accel_reset(acc);
     }
     gsl_interp_accel_free(acc);
-
-
-/*
-    for(int i=1; i<(noSweeps+1); i++) {
-
-//        qDebug() << "ppsweep = " << ppSweep[i-1];
-
-        E = new double[static_cast<unsigned long>(ppSweep[i-1])];
-        curr = new double[static_cast<unsigned long>(ppSweep[i-1])];
-        for(int j=0; j<ppSweep[i-1]; j++) {
-            E[j] = itPot.next();
-            curr[j] = itCurr.next();
-        }
-
-        // Save sweep direction in sign and reverse if necessary for splineing.
-        int sign = sgn(E[1] - E[0]);
-        if(sign == -1) {
-            std::reverse(E, &E[ppSweep[i-1]]);
-            std::reverse(curr, &curr[ppSweep[i-1]]);
-        }
-
-        spline = gsl_spline_alloc(gsl_interp_cspline, static_cast<size_t>(ppSweep[i-1]));
-        gsl_spline_init(spline, E, curr, static_cast<size_t>(ppSweep[i-1]));
-
-//        qDebug() << "rtimes = " << rTimes[i];
-
-        // first one by hand.
-        splineCurrent.append(gsl_spline_eval(spline, itSimE.next(), acc));
-//        splFile << itSimE.peekPrevious() << ",\t" << splineCurrent.last() << "\n";
-
-        while((sgn(itSimE.peekNext()-itSimE.peekPrevious()) == sign) && itSimE.hasNext()) {
-            splineCurrent.append(gsl_spline_eval(spline, itSimE.next(), acc));
-//            qDebug() << "E = " << itSimE.peekPrevious() << "\t i = " << splineCurrent.last();
-//            splFile << itSimE.peekPrevious() << ",\t" << splineCurrent.last() << "\n";
-        }
-
-        free(E);
-        free(curr);
-        gsl_spline_free(spline);
-    }
-*/
-
-//    splFile.close();
 }
+
 
 void ECData::clearData(void) {
     time.clear();
@@ -516,6 +464,7 @@ void ECData::clearData(void) {
     noSweeps = 1;
     scanRate = potentialSteps = 0.0;
     rPotentials.clear();
+    rIndex.clear();
     rTimes.clear();
     ppSweep.clear();
     temperature = 298.15;
