@@ -157,11 +157,11 @@ void ECData::_findSegments(int window) {
 
     // Calculate difference between SMA and data vectors
     gsl_vector_sub(gslSmaDiffPot, gslPotential);
-
+/*
     FILE *f = fopen ("/Users/tn438/Desktop/test.txt", "wb");
     gsl_vector_fprintf (f, gslSmaDiffPot, "%g");
     fclose (f);
-
+*/
     // Find turning points.
     int extreme = 0;
     gsl_vector_view subv;
