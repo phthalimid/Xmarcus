@@ -84,34 +84,6 @@ void ECData::readFile(QString fileName, int dataSource) {
 
     // need to clean the data here!
     cleanData();
-/*
-    // Calculate potential programme parameters.
-    int ppsCounter = 2;
-    rPotentials.append(potential[0]);
-    rTimes.append(time[0]);
-    int slope = sgn(potential[1] - potential[0]);
-    noSweeps = 1;
-    for(int i=2; i<potential.size(); i++) {
-        if(sgn(potential[i]-potential[i-1]) != slope) {
-            slope *= -1;
-            rPotentials.append(potential[i-1]);
-            rTimes.append(time[i-1]);
-            ppSweep.append(ppsCounter);
-            noSweeps++;
-            ppsCounter = 0;
-        }
-        ppsCounter++;
-    }
-    rPotentials.append(potential.last());
-    rTimes.append(time.last());
-    ppSweep.append(ppsCounter);
-    scanRate = fabs(rPotentials[1] - rPotentials[0]);
-
-    for(int i=2; i<rPotentials.size(); i++)
-        scanRate += fabs(rPotentials[i] - rPotentials[i-1]);
-    potentialSteps = scanRate/nols;
-    scanRate /= (time.last()-time[0]);
-*/
 
 }
 
@@ -129,6 +101,7 @@ void ECData::readFile(QString fileName, int dataSource) {
  */
 void ECData::cleanData() {
 
+    // Remove duplicates if the tthe data is sitting on a potential.
     for(QVector<double>::iterator it=(potential.begin()+1); it!=potential.end();) {
         if(qFuzzyCompare(*(it-1), *it)) {
             time.remove(int((it-1)-potential.begin()));
@@ -147,9 +120,8 @@ void ECData::cleanData() {
 
 }
 
-
 /*
- * Find segments in the provided potential data.
+ * Find segments in the provided potential data. Then fill the "clean" segments in the various variables.
  * Use this idea: https://www.codeproject.com/Articles/5282014/Segmented-Linear-Regression
  *
  */
@@ -297,18 +269,6 @@ void ECData::_findSegments(int window) {
         idxTurns[i+1] = max_pot;
     }
 
-
-
-/*
-    for(int i=0; i < vc0.size(); i++)
-       cout << vc0.at(i) << ' ';
-    cout << endl;
-
-    for(int i=0; i < vc1.size(); i++)
-       cout << vc1.at(i) << ' ';
-    cout << endl;
-*/
-
     // Fill in the return potentials and points per sweep
     rPotentials.clear();
     rIndex.clear();
@@ -419,17 +379,18 @@ void ECData::calcCVTimePot(void) {
  * IMPORTANT: the interpolated data must lie between the endpoints of the experimental data!
  */
 void ECData::splineData(QVector<double> simE, QVector<int> simInx) {
-//void ECData::splineData(QVector<double> simt, QVector<double> simE) {
-
     splineCurrent.clear();
 
     gsl_spline *spline = nullptr;
     gsl_interp_accel *acc = gsl_interp_accel_alloc();
 
+    spline = gsl_spline_alloc(gsl_interp_cspline, time.size());
+    gsl_spline_init(spline, time.data(), current.data(), time.size());
+
     for (int i=0; i<noSweeps; i++) {
 
-        vector<double> x(&potential.data()[rIndex[i]], &potential.data()[rIndex[i+1]]);
-        vector<double> y(&current.data()[rIndex[i]], &current.data()[rIndex[i+1]]);
+        vector<double> x(&potential.data()[rIndex[i]], &potential.data()[rIndex[i+1]+1]);
+        vector<double> y(&current.data()[rIndex[i]], &current.data()[rIndex[i+1]+1]);
 
         // Reverse if necessary
         if (x[1] - x[0] < 0.0) {
@@ -452,6 +413,7 @@ void ECData::splineData(QVector<double> simE, QVector<int> simInx) {
         gsl_interp_accel_reset(acc);
     }
     gsl_interp_accel_free(acc);
+
 }
 
 
